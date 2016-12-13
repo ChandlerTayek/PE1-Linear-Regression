@@ -49,7 +49,7 @@ pause;
 % Scale features and set them to zero mean
 fprintf('Normalizing Features ...\n');
 
-[X mu sigma] = featureNormalize(X);
+[X, mu, sigma] = featureNormalize(X);
 
 % Add intercept term to X
 X = [ones(m, 1) X];
@@ -81,19 +81,24 @@ X = [ones(m, 1) X];
 
 fprintf('Running gradient descent ...\n');
 
-% Choose some alpha value
-alpha = 0.01;
-num_iters = 400;
+% Choose number of iterations
+num_iters = 50;
 
-% Init Theta and Run Gradient Descent 
+%Try the gradient descent using three different learning rates (alpha)
+
+%Red line
+alpha = .9;
 theta = zeros(3, 1);
 [theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);
 
+
 % Plot the convergence graph
 figure;
-plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
+%plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
+plot(1:numel(J_history), J_history,  'g');
 xlabel('Number of iterations');
 ylabel('Cost J');
+
 
 % Display gradient descent's result
 fprintf('Theta computed from gradient descent: \n');
@@ -104,7 +109,11 @@ fprintf('\n');
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
-price = 0; % You should change this
+
+predict = [1650, 3];
+predict = (predict - mu)./sigma;
+predict = [1, predict];
+price = predict*theta;
 
 
 % ============================================================
@@ -149,8 +158,8 @@ fprintf('\n');
 
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
-price = 0; % You should change this
-
+predict = [1, 1650, 3];
+price = predict*theta;
 
 % ============================================================
 

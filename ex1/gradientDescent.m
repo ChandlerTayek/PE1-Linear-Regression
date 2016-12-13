@@ -17,8 +17,12 @@ for iter = 1:num_iters
     %       of the cost function (computeCost) and gradient here.
     %
     
-    %Calculate and update Theta
-    theta = theta - alpha*(1/m)*(X'*(X*theta - y));
+    %Compute the hypothesis function
+    H_theta = X*theta;
+
+    %Compute the gradient decent
+    theta = theta - alpha*(1/m)*(X'*(H_theta - y));
+
     
     % ============================================================
 
